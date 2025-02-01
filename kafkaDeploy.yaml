@@ -1,0 +1,17 @@
+---
+- name: Deploy Kafka Operator
+  hosts: localhost
+  remote_user: root
+
+  tasks:
+    - name: Add Kafka Operator on helm repository
+      kubernetes.core.helm_repository:
+        name: stable
+        repo_url: "https://strimzi.io/charts"
+
+    - name: Install Kafka Operator chart from version
+      kubernetes.core.helm:
+        name: strimzi-kafka-operator
+        chart_ref: strimzi/strimzi-kafka-operator
+        release_namespace: strimzi
+        chart_version: "{{ kafkaOperatorVersion }}"
